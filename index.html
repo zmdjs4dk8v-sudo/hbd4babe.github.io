@@ -18,7 +18,6 @@
             perspective: 1000px;
         }
 
-        /* Scanline matrix effect */
         body::before {
             content: " ";
             display: block;
@@ -62,28 +61,31 @@
             0% { opacity: 0.4; } 100% { opacity: 1; }
         }
 
+        /* NEW: Made this look like an obvious clickable flashing text box field */
         .input-line {
             display: flex;
-            margin-top: 20px;
+            margin-top: 25px;
             align-items: center;
-            background: rgba(0, 210, 255, 0.05);
-            padding: 10px;
+            background: rgba(0, 210, 255, 0.1);
+            padding: 12px;
             border-radius: 6px;
-            border: 1px solid rgba(0, 210, 255, 0.2);
+            border: 2px solid #00d2ff;
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+            cursor: text;
         }
 
         input {
             background: transparent;
             border: none;
-            color: #fff;
+            color: #ffffff;
             font-family: inherit;
             font-size: 16px;
+            font-weight: bold;
             outline: none;
             width: 100%;
             text-shadow: 0 0 5px #00d2ff;
         }
 
-        /* Dashboard Styles with grid entry animation */
         .dashboard {
             display: none;
             width: 95%;
@@ -113,7 +115,6 @@
             box-shadow: 0 5px 25px rgba(0, 210, 255, 0.3);
         }
 
-        /* AMG Mercedes Neon UI details */
         .panel-title {
             margin-top: 0;
             border-bottom: 1px solid rgba(0, 210, 255, 0.3);
@@ -136,12 +137,11 @@
             background: linear-gradient(90deg, #00d2ff, #0055ff);
             height: 100%;
             border-radius: 20px;
-            width: 0%; /* Animated via JS */
+            width: 0%; 
             transition: width 2s cubic-bezier(0.1, 0.8, 0.2, 1);
             box-shadow: 0 0 10px #00d2ff;
         }
 
-        /* Luxury Sweeping Watch Face */
         .watch-container {
             display: flex;
             justify-content: center;
@@ -180,7 +180,6 @@
         .second { 
             width: 1px; height: 70px; 
             background: #ff3b30; 
-            /* Luxury automatic sweep effect */
             animation: sweep 60s linear infinite; 
         }
 
@@ -189,7 +188,6 @@
             to { transform: translateX(-50%) rotate(360deg); }
         }
 
-        /* Confetti elements */
         .confetti {
             position: absolute;
             width: 8px; height: 8px;
@@ -223,9 +221,10 @@
             </p>
         </div>
         
-        <div class="input-line">
-            <span id="prompt-text" style="white-space: nowrap; margin-right: 10px;">Do you agree to these terms? (Y/N):</span>
-            <input type="text" id="term-input" autofocus autocomplete="off">
+        <!-- Clicking anywhere inside this box targets the typing line instantly -->
+        <div class="input-line" onclick="document.getElementById('term-input').focus();">
+            <span id="prompt-text" style="white-space: nowrap; margin-right: 10px; color: #00d2ff;">Do you agree? (Y/N):</span>
+            <input type="text" id="term-input" autofocus autocomplete="off" placeholder="Type here...">
         </div>
         <p id="error-msg" style="color: #ff3b30; margin-top: 15px; display: none; text-shadow: 0 0 8px #ff3b30;"></p>
     </div>
@@ -242,8 +241,8 @@
             <p><strong>Engine Core Temp:</strong> Super Hot 🔥</p>
             <div class="stat-bar"><div class="stat-fill" id="bar-temp" style="width: 98%;"></div></div>
             
-            <p><strong>Junk Food Accumulation:</strong> Dangerous Levels 🍕🍟</p>
-            <div class="stat-bar"><div class="stat-fill" id="bar-junk" style="width: 85%; background: linear-gradient(90deg, #ff3b30, #ff9500); box-shadow: 0 0 10px #ff3b30;"></div></div>
+            <p><strong>McDonald's Accumulation:</strong> Dangerous Levels 🍔🍟</p>
+            <div class="stat-bar"><div class="stat-fill" id="bar-junk" style="width: 92%; background: linear-gradient(90deg, #ff3b30, #ff9500); box-shadow: 0 0 10px #ff3b30;"></div></div>
         </div>
 
         <!-- Luxury Chronograph Watch Panel -->
@@ -251,7 +250,6 @@
             <div class="panel-title">⌚ LUXURY CHRONOGRAPH LOG</div>
             <div class="watch-container">
                 <div class="watch-face">
-                    <!-- Static positions set to an iconic time look -->
                     <div class="watch-hand hour" style="transform: translateX(-50%) rotate(300deg);"></div>
                     <div class="watch-hand minute" style="transform: translateX(-50%) rotate(60deg);"></div>
                     <div class="watch-hand second"></div>
