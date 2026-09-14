@@ -6,7 +6,7 @@
     <title>CRITICAL SYSTEM OVERLOAD</title>
     <style>
         body {
-            background-color: #030305;
+            background-color: #020204;
             color: #00d2ff;
             font-family: 'Courier New', Courier, monospace;
             display: flex;
@@ -15,30 +15,29 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
-            perspective: 1000px;
         }
 
+        /* Sci-Fi scanline grid overlays */
         body::before {
             content: " ";
             display: block;
             position: absolute;
             top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.04));
             z-index: 10;
             background-size: 100% 4px, 6px 100%;
             pointer-events: none;
         }
 
-        .terminal {
-            background-color: #06090e;
+        .terminal-box {
+            background-color: #05080c;
             border: 2px solid #00d2ff;
-            box-shadow: 0 0 30px rgba(0, 210, 255, 0.4), inset 0 0 15px rgba(0, 210, 255, 0.1);
+            box-shadow: 0 0 35px rgba(0, 210, 255, 0.5);
             width: 90%;
             max-width: 650px;
-            padding: 25px;
+            padding: 30px;
             border-radius: 12px;
-            transform: rotateX(5deg);
-            transition: all 0.5s ease;
+            transition: all 0.4s ease;
         }
 
         .terminal-header {
@@ -50,28 +49,41 @@
             justify-content: space-between;
         }
 
-        .warning-text {
+        .alert-pulse {
             color: #ff3b30;
-            font-weight: bold;
-            animation: pulse 1s infinite alternate;
-            text-shadow: 0 0 10px rgba(255, 59, 48, 0.6);
+            animation: flash 1s infinite alternate;
+            text-shadow: 0 0 10px rgba(255, 59, 48, 0.8);
         }
 
-        @keyframes pulse {
-            0% { opacity: 0.4; } 100% { opacity: 1; }
-        }
+        @keyframes flash { 0% { opacity: 0.3; } 100% { opacity: 1; } }
 
-        /* NEW: Made this look like an obvious clickable flashing text box field */
-        .input-line {
-            display: flex;
-            margin-top: 25px;
-            align-items: center;
-            background: rgba(0, 210, 255, 0.1);
-            padding: 12px;
-            border-radius: 6px;
+        /* The Big Fail-Safe Input Bar */
+        .cyber-input-zone {
+            margin-top: 30px;
+            background: rgba(0, 210, 255, 0.12);
+            padding: 15px;
+            border-radius: 8px;
             border: 2px solid #00d2ff;
-            box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
-            cursor: text;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+        }
+
+        .cyber-input-zone label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #ffcc00;
+            text-shadow: 0 0 5px rgba(255,204,0,0.3);
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .input-row span {
+            font-size: 18px;
+            font-weight: bold;
+            margin-right: 10px;
         }
 
         input {
@@ -79,186 +91,181 @@
             border: none;
             color: #ffffff;
             font-family: inherit;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
             outline: none;
             width: 100%;
-            text-shadow: 0 0 5px #00d2ff;
+            text-shadow: 0 0 8px #00d2ff;
         }
 
-        .dashboard {
+        /* Dashboard UI panels */
+        .dashboard-grid {
             display: none;
             width: 95%;
             max-width: 950px;
             grid-template-columns: 1fr 1fr;
             gap: 25px;
-            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            animation: warpIn 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
         }
 
-        @keyframes slideUp {
-            0% { opacity: 0; transform: translateY(50px) scale(0.95); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
+        @keyframes warpIn {
+            0% { opacity: 0; transform: scale(0.8) translateY(100px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         .panel {
-            background: #06090e;
+            background: #05080c;
             border: 1px solid #00d2ff;
             border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.15);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
+            transition: all 0.3s ease;
         }
         .panel:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 25px rgba(0, 210, 255, 0.3);
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(0, 210, 255, 0.4);
         }
 
         .panel-title {
             margin-top: 0;
-            border-bottom: 1px solid rgba(0, 210, 255, 0.3);
-            padding-bottom: 8px;
-            letter-spacing: 2px;
+            border-bottom: 1px solid rgba(0, 210, 255, 0.4);
+            padding-bottom: 10px;
             font-size: 14px;
+            letter-spacing: 2px;
+            font-weight: bold;
             color: #fff;
-            text-shadow: 0 0 8px #00d2ff;
+            text-shadow: 0 0 10px #00d2ff;
         }
 
-        .stat-bar {
-            background: #11141a;
-            height: 12px;
-            border-radius: 20px;
-            margin: 8px 0 18px 0;
+        .bar-container {
+            background: #10141d;
+            height: 14px;
+            border-radius: 30px;
+            margin: 10px 0 20px 0;
             overflow: hidden;
-            border: 1px solid rgba(0, 210, 255, 0.1);
+            border: 1px solid rgba(0, 210, 255, 0.2);
         }
-        .stat-fill {
-            background: linear-gradient(90deg, #00d2ff, #0055ff);
+        .bar-fill {
+            background: linear-gradient(90deg, #0055ff, #00d2ff);
             height: 100%;
-            border-radius: 20px;
-            width: 0%; 
-            transition: width 2s cubic-bezier(0.1, 0.8, 0.2, 1);
-            box-shadow: 0 0 10px #00d2ff;
+            width: 0%;
+            transition: width 2.5s ease-out;
+            box-shadow: 0 0 12px #00d2ff;
         }
 
-        .watch-container {
+        /* Smooth Watch Sweeper */
+        .clock-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 15px 0;
+            padding: 10px 0;
         }
-        .watch-face {
-            width: 160px;
-            height: 160px;
+        .clock-face {
+            width: 150px;
+            height: 150px;
             border: 3px solid #00d2ff;
             border-radius: 50%;
             position: relative;
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2), inset 0 0 20px rgba(0, 210, 255, 0.2);
-            background: radial-gradient(circle, #0c1017 60%, #06090e 100%);
+            box-shadow: 0 0 25px rgba(0, 210, 255, 0.3), inset 0 0 20px rgba(0, 210, 255, 0.2);
+            background: radial-gradient(circle, #090e15 50%, #05080c 100%);
         }
-        .watch-face::before {
-            content: '';
+        .clock-center {
             position: absolute;
             width: 8px; height: 8px;
             background: #fff;
             border-radius: 50%;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 5;
+            z-index: 10;
         }
-        .watch-hand {
+        .hand {
             position: absolute;
             background: #fff;
             transform-origin: bottom center;
             bottom: 50%; left: 50%;
-            transform: translateX(-50%) rotate(0deg);
-            border-radius: 4px;
+            transform: translateX(-50%);
         }
-        .hour { width: 4px; height: 45px; background: #fff; }
-        .minute { width: 3px; height: 65px; background: #00d2ff; }
-        .second { 
-            width: 1px; height: 70px; 
+        .hr-hand { width: 4px; height: 40px; transform: translateX(-50%) rotate(305deg); }
+        .min-hand { width: 3px; height: 60px; transform: translateX(-50%) rotate(55deg); background: #00d2ff; }
+        .sec-hand { 
+            width: 1.5px; height: 65px; 
             background: #ff3b30; 
-            animation: sweep 60s linear infinite; 
+            animation: chronos 60s linear infinite; 
         }
 
-        @keyframes sweep {
+        @keyframes chronos {
             from { transform: translateX(-50%) rotate(0deg); }
             to { transform: translateX(-50%) rotate(360deg); }
         }
 
-        .confetti {
+        /* Matrix Rain Confetti Drop */
+        .matrix-token {
             position: absolute;
-            width: 8px; height: 8px;
-            background: #00d2ff;
-            border-radius: 50%;
-            animation: drop 3s ease-out infinite;
+            color: #00d2ff;
+            font-size: 14px;
+            font-weight: bold;
+            animation: rain 2.5s linear infinite;
             opacity: 0;
             pointer-events: none;
         }
-        @keyframes drop {
-            0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        @keyframes rain {
+            0% { transform: translateY(-50px); opacity: 1; }
+            80% { opacity: 0.8; }
+            100% { transform: translateY(100vh); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-    <!-- STAGE 1: TERMINAL LOCK -->
-    <div id="terminal-stage" class="terminal">
+    <!-- STAGE 1: THE CORE FIREWALL TERMINAL -->
+    <div id="lock-screen" class="terminal-box">
         <div class="terminal-header">
-            <span>⚡ SYSTEM_DIAGNOSTIC.SH</span>
-            <span class="warning-text">[!] ALERT</span>
+            <span>⚡ CONSOLE_SECURITY_OVERRIDE.EXE</span>
+            <span class="alert-pulse">[!] WARNING</span>
         </div>
-        <div id="terminal-body">
-            <p>[INFO] Initializing scan on user: BOYFRIEND...</p>
-            <p class="warning-text">[WARNING] Workaholic levels exceeding maximum safety parameters (99%).</p>
-            <p class="warning-text">[WARNING] Stubbornness levels dangerously high.</p>
-            <p>[CRITICAL UPDATE] A core system update is required before birthday wishes can be unlocked.</p>
-            <p style="color: #ffcc00; margin-top: 20px; text-shadow: 0 0 5px rgba(255,204,0,0.4);">
-                &gt; CRITICAL DIRECTIVE: You must start listening to your girlfriend and promise not to be so stubborn anymore.
+        <div id="diagnostic-logs" style="line-height: 1.6;">
+            <p style="margin: 5px 0;">[SYSTEM] Scanning connected host parameter...</p>
+            <p class="alert-pulse" style="margin: 5px 0;">[ALERT] Detected Host Profile: Workaholic Developer</p>
+            <p class="alert-pulse" style="margin: 5px 0;">[ALERT] Obstinacy / Stubbornness levels: 99.8% (CRITICAL MAX)</p>
+            <p style="margin: 5px 0; color: #888;">[INFO] System lock engaged. Outbound birthday wishes encrypted.</p>
+            <p style="margin: 15px 0 5px 0; color: #ffcc00; font-weight: bold; border-left: 3px solid #ffcc00; padding-left: 10px;">
+                REQUIRED ACTION: You must agree to listen to your girlfriend more and drop the stubborn attitude immediately.
             </p>
         </div>
-        
-        <!-- Clicking anywhere inside this box targets the typing line instantly -->
-        <div class="input-line" onclick="document.getElementById('term-input').focus();">
-            <span id="prompt-text" style="white-space: nowrap; margin-right: 10px; color: #00d2ff;">Do you agree? (Y/N):</span>
-            <input type="text" id="term-input" autofocus autocomplete="off" placeholder="Type here...">
+
+        <!-- Completely redesigned, fail-safe typing panel -->
+        <div class="cyber-input-zone">
+            <label id="input-label-text">Authorization Agreement Required:</label>
+            <div class="input-row">
+                <span>&gt;</span>
+                <input type="text" id="cyber-text-box" autofocus autocomplete="off" placeholder="Type Y or N and press Enter...">
+            </div>
         </div>
-        <p id="error-msg" style="color: #ff3b30; margin-top: 15px; display: none; text-shadow: 0 0 8px #ff3b30;"></p>
+        <p id="system-error-text" style="color: #ff3b30; margin-top: 15px; display: none; font-weight: bold; text-shadow: 0 0 8px #ff3b30;"></p>
     </div>
 
-    <!-- STAGE 2: THE COMPLICATED DASHBOARD -->
-    <div id="dashboard-stage" class="dashboard">
-        <!-- Mercedes Telemetry Panel -->
+    <!-- STAGE 2: THE COMPLICATED METRICS DASHBOARD -->
+    <div id="main-dashboard" class="dashboard-grid">
+        <!-- Mercedes Live Telemetry Module -->
         <div class="panel">
-            <div class="panel-title">🏎️ AMG MERCEDES TELEMETRY ENGINE</div>
-            <p style="margin-top: 15px;"><strong>System Model:</strong> Ultimate Workaholic Dev v2.6</p>
-            <p><strong>Fuel Level (My Love For You):</strong> 100%</p>
-            <div class="stat-bar"><div class="stat-fill" id="bar-love" style="width: 100%;"></div></div>
+            <div class="panel-title">🏎️ AMG MERCEDES BENZ TELEMETRY SYSTEM</div>
+            <p style="margin-top: 15px; font-size: 13px;"><strong>Vehicle Variant:</strong> Workaholic Boyfriend AMG Edition v2.0</p>
             
-            <p><strong>Engine Core Temp:</strong> Super Hot 🔥</p>
-            <div class="stat-bar"><div class="stat-fill" id="bar-temp" style="width: 98%;"></div></div>
+            <p style="margin-bottom: 0; font-size: 13px;"><strong>Fuel Gauge (My Love For You):</strong> 100% CAPACITY</p>
+            <div class="bar-container"><div class="bar-fill" id="gauge-love"></div></div>
             
-            <p><strong>McDonald's Accumulation:</strong> Dangerous Levels 🍔🍟</p>
-            <div class="stat-bar"><div class="stat-fill" id="bar-junk" style="width: 92%; background: linear-gradient(90deg, #ff3b30, #ff9500); box-shadow: 0 0 10px #ff3b30;"></div></div>
+            <p style="margin-bottom: 0; font-size: 13px;"><strong>Core Engine Core Temp:</strong> DANGEROUSLY HOT 🔥</p>
+            <div class="bar-container"><div class="bar-fill" id="gauge-temp"></div></div>
+            
+            <p style="margin-bottom: 0; font-size: 13px;"><strong>McDonald's Intake Ratio:</strong> CRITICAL LOAD 🍔🍟</p>
+            <div class="bar-container"><div class="bar-fill" id="gauge-junk" style="background: linear-gradient(90deg, #ff3b30, #ffcc00);"></div></div>
         </div>
 
-        <!-- Luxury Chronograph Watch Panel -->
+        <!-- Chronograph Mechanical Watch Log Module -->
         <div class="panel" style="display: flex; flex-direction: column; justify-content: space-between;">
-            <div class="panel-title">⌚ LUXURY CHRONOGRAPH LOG</div>
-            <div class="watch-container">
-                <div class="watch-face">
-                    <div class="watch-hand hour" style="transform: translateX(-50%) rotate(300deg);"></div>
-                    <div class="watch-hand minute" style="transform: translateX(-50%) rotate(60deg);"></div>
-                    <div class="watch-hand second"></div>
-                </div>
-            </div>
-            <p align="center" style="font-size: 11px; color: #8f9cae; margin: 0; line-height: 1.4;">
-                [STATUS] Automatic sweeping active.<br>Time spent writing scripts &lt; Time spent admiring you.
-            </p>
-        </div>
-
-        <!-- Birthday Message Panel -->
-        <div class="panel" style="grid-column: span 2; border-color: #fff; box-shadow: 0 0 25px rgba(255,255,255,0.1);"> 
+            <div class="panel-title">⌚ INTEGRATED CHRONOGRAPH WATCH COMPASS</div>
+            <div class="clock-wrapper">
+                <div class="clock-face">
+                    <div class="clock-center"></div>
+                    <div class="hand hr-hand"></div>
+                    <div class="hand min-hand"></div>
