@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRITICAL SYSTEM OVERLOAD</title>
+    <style>
+        body {
+            background-color: #050508;
+            color: #00d2ff;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .terminal {
+            background-color: #0a0c10;
+            border: 2px solid #00d2ff;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+            width: 90%;
+            max-width: 650px;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .terminal-header {
+            border-bottom: 1px solid #00d2ff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+        .warning-text {
+            color: #ff3b30;
+            font-weight: bold;
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink {
+            0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; }
+        }
+        .input-line {
+            display: flex;
+            margin-top: 15px;
+        }
+        .input-line span {
+            margin-right: 10px;
+        }
+        input {
+            background: transparent;
+            border: none;
+            color: #00d2ff;
+            font-family: inherit;
+            font-size: inherit;
+            outline: none;
+            width: 100%;
+        }
+        .dashboard {
+            display: none;
+            width: 95%;
+            max-width: 900px;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .panel {
+            background: #0a0c10;
+            border: 1px solid #00d2ff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.1);
+        }
+        .mercedes-panel {
+            border-color: #00d2ff;
+            position: relative;
+        }
+        .watch-face {
+            width: 150px;
+            height: 150px;
+            border: 4px solid #00d2ff;
+            border-radius: 50%;
+            margin: 20px auto;
+            position: relative;
+        }
+        .watch-hand {
+            position: absolute;
+            background: #00d2ff;
+            transform-origin: bottom center;
+            bottom: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .hour { width: 4px; height: 40px; }
+        .minute { width: 2px; height: 60px; }
+        .stat-bar {
+            background: #222;
+            height: 15px;
+            border-radius: 10px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        .stat-fill {
+            background: linear-gradient(90deg, #00d2ff, #0088cc);
+            height: 100%;
+        }
+        .btn {
+            background: transparent;
+            border: 1px solid #ff3b30;
+            color: #ff3b30;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn:hover { background: #ff3b30; color: #fff; }
+    </style>
+</head>
+<body>
+
+    <!-- STAGE 1: TERMINAL LOCK -->
+    <div id="terminal-stage" class="terminal">
+        <div class="terminal-header">
+            <span>⚡ SYSTEM_DIAGNOSTIC.SH</span>
+            <span class="warning-text">[!] ALERT</span>
+        </div>
+        <p>[INFO] Initializing scan on user: BOYFRIEND...</p>
+        <p class="warning-text">[WARNING] Workaholic levels exceeding maximum safety parameters (99%).</p>
+        <p class="warning-text">[WARNING] Stubbornness levels dangerously high.</p>
+        <p>[CRITICAL UPDATE] A core system update is required before birthday wishes can be unlocked.</p>
+        <p style="color: #ffcc00; margin-top: 20px;">&gt; CRITICAL DIRECTIVE: You must start listening to your girlfriend and promise not to be so stubborn anymore.</p>
+        
+        <div class="input-line">
+            <span id="prompt-text">Do you agree to these terms? (Y/N):</span>
+            <input type="text" id="term-input" autofocus autocomplete="off">
+        </div>
+        <p id="error-msg" style="color: #ff3b30; margin-top: 15px; display: none;"></p>
+    </div>
+
+    <!-- STAGE 2: THE COMPLICATED DASHBOARD -->
+    <div id="dashboard-stage" class="dashboard">
+        <!-- Mercedes Telemetry Panel -->
+        <div class="panel mercedes-panel">
+            <h3 style="margin-top: 0; border-bottom: 1px solid #00d2ff; padding-bottom: 5px;">🏎️ MERCEDES TELEMETRY PANEL</h3>
+            <p><strong>Model:</strong> Ultimate Workaholic Dev Edition</p>
+            <p><strong>Fuel Level (Love):</strong> 100%</p>
+            <div class="stat-bar"><div class="stat-fill" style="width: 100%;"></div></div>
+            <p><strong>Engine Temp:</strong> Super Hot 🔥</p>
+            <div class="stat-bar"><div class="stat-fill" style="width: 95%;"></div></div>
+            <p><strong>Junk Food Level:</strong> Dangerous Amounts of Pizza & Fries 🍕🍟</p>
+            <div class="stat-bar"><div class="stat-fill" style="width: 88%; background: #ff3b30;"></div></div>
+        </div>
+
+        <!-- Luxury Chronograph Watch Panel -->
+        <div class="panel">
+            <h3 style="margin-top: 0; border-bottom: 1px solid #00d2ff; padding-bottom: 5px;">⌚ CHRONOGRAPH CHIPS</h3>
+            <div class="watch-face">
+                <div class="watch-hand hour" style="transform: rotate(90deg) translateX(-50%);"></div>
+                <div class="watch-hand minute" style="transform: rotate(180deg) translateX(-50%);"></div>
+            </div>
+            <p align="center" style="font-size: 12px; color: #888;">Time spent coding vs. Time spent thinking about you</p>
+        </div>
+
+        <!-- Birthday Message Panel -->
+        <div class="panel" style="grid-column: span 2;">
+            <h2 style="color: #fff; margin-top:0;">🎉 ACCESS GRANTED: HAPPY BIRTHDAY! 🎉</h2>
+            <p>Now that you have officially promised to listen to me more and drop the stubbornness... Happy Birthday, babe! ❤️</p>
+            <p>I know you work so hard and eat way too much junk food, but you are the most brilliant, amazing developer, and I love you to pieces. Stop staring at code for two seconds and celebrate!</p>
+        </div>
+    </div>
+
+    <script>
+        const input = document.getElementById('term-input');
+        const errorMsg = document.getElementById('error-msg');
+        const promptText = document.getElementById('prompt-text');
+        
+        let stage = 'stubborn'; // Track terminal progress
+
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const val = input.value.trim().toUpperCase();
+                errorMsg.style.display = 'none';
+
+                if (stage === 'stubborn') {
+                    if (val === 'Y' || val === 'YES') {
+                        // Advance to the junk food check
+                        stage = 'junkfood';
+                        input.value = '';
+                        promptText.innerText = "Enter your absolute favorite junk food to unlock dashboard:";
+                    } else {
+                        errorMsg.innerText = "❌ ERROR: Access Denied. Stubborn developers do not get birthday wishes. Type 'Y' to comply.";
+                        errorMsg.style.display = 'block';
+                        input.value = '';
+                    }
+                } else if (stage === 'junkfood') {
+                    if (val.length > 2) {
+                        // Unlock everything!
+                        document.getElementById('terminal-stage').style.display = 'none';
+                        document.getElementById('dashboard-stage').style.display = 'grid';
+                    } else {
+                        errorMsg.innerText = "❌ ERROR: Invalid authentication key. Try again.";
+                        errorMsg.style.display = 'block';
+                        input.value = '';
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
