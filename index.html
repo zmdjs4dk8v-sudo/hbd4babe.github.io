@@ -6,7 +6,7 @@
     <title>CRITICAL SYSTEM OVERLOAD</title>
     <style>
         body {
-            background-color: #050508;
+            background-color: #030305;
             color: #00d2ff;
             font-family: 'Courier New', Courier, monospace;
             display: flex;
@@ -15,104 +15,194 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
+            perspective: 1000px;
         }
+
+        /* Scanline matrix effect */
+        body::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 10;
+            background-size: 100% 4px, 6px 100%;
+            pointer-events: none;
+        }
+
         .terminal {
-            background-color: #0a0c10;
+            background-color: #06090e;
             border: 2px solid #00d2ff;
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 210, 255, 0.4), inset 0 0 15px rgba(0, 210, 255, 0.1);
             width: 90%;
             max-width: 650px;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 25px;
+            border-radius: 12px;
+            transform: rotateX(5deg);
+            transition: all 0.5s ease;
         }
+
         .terminal-header {
-            border-bottom: 1px solid #00d2ff;
-            padding-bottom: 10px;
+            border-bottom: 2px dashed #00d2ff;
+            padding-bottom: 12px;
             margin-bottom: 20px;
             font-weight: bold;
             display: flex;
             justify-content: space-between;
         }
+
         .warning-text {
             color: #ff3b30;
             font-weight: bold;
-            animation: blink 1.5s infinite;
+            animation: pulse 1s infinite alternate;
+            text-shadow: 0 0 10px rgba(255, 59, 48, 0.6);
         }
-        @keyframes blink {
-            0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; } 100% { opacity: 1; }
         }
+
         .input-line {
             display: flex;
-            margin-top: 15px;
+            margin-top: 20px;
+            align-items: center;
+            background: rgba(0, 210, 255, 0.05);
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 210, 255, 0.2);
         }
-        .input-line span {
-            margin-right: 10px;
-        }
+
         input {
             background: transparent;
             border: none;
-            color: #00d2ff;
+            color: #fff;
             font-family: inherit;
-            font-size: inherit;
+            font-size: 16px;
             outline: none;
             width: 100%;
+            text-shadow: 0 0 5px #00d2ff;
         }
+
+        /* Dashboard Styles with grid entry animation */
         .dashboard {
             display: none;
             width: 95%;
-            max-width: 900px;
+            max-width: 950px;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 25px;
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
+
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(50px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
         .panel {
-            background: #0a0c10;
+            background: #06090e;
             border: 1px solid #00d2ff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 0 15px rgba(0, 210, 255, 0.1);
-        }
-        .mercedes-panel {
-            border-color: #00d2ff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.15);
             position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 25px rgba(0, 210, 255, 0.3);
+        }
+
+        /* AMG Mercedes Neon UI details */
+        .panel-title {
+            margin-top: 0;
+            border-bottom: 1px solid rgba(0, 210, 255, 0.3);
+            padding-bottom: 8px;
+            letter-spacing: 2px;
+            font-size: 14px;
+            color: #fff;
+            text-shadow: 0 0 8px #00d2ff;
+        }
+
+        .stat-bar {
+            background: #11141a;
+            height: 12px;
+            border-radius: 20px;
+            margin: 8px 0 18px 0;
+            overflow: hidden;
+            border: 1px solid rgba(0, 210, 255, 0.1);
+        }
+        .stat-fill {
+            background: linear-gradient(90deg, #00d2ff, #0055ff);
+            height: 100%;
+            border-radius: 20px;
+            width: 0%; /* Animated via JS */
+            transition: width 2s cubic-bezier(0.1, 0.8, 0.2, 1);
+            box-shadow: 0 0 10px #00d2ff;
+        }
+
+        /* Luxury Sweeping Watch Face */
+        .watch-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 15px 0;
         }
         .watch-face {
-            width: 150px;
-            height: 150px;
-            border: 4px solid #00d2ff;
+            width: 160px;
+            height: 160px;
+            border: 3px solid #00d2ff;
             border-radius: 50%;
-            margin: 20px auto;
             position: relative;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2), inset 0 0 20px rgba(0, 210, 255, 0.2);
+            background: radial-gradient(circle, #0c1017 60%, #06090e 100%);
+        }
+        .watch-face::before {
+            content: '';
+            position: absolute;
+            width: 8px; height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 5;
         }
         .watch-hand {
             position: absolute;
-            background: #00d2ff;
+            background: #fff;
             transform-origin: bottom center;
-            bottom: 50%;
-            left: 50%;
-            transform: translateX(-50%);
+            bottom: 50%; left: 50%;
+            transform: translateX(-50%) rotate(0deg);
+            border-radius: 4px;
         }
-        .hour { width: 4px; height: 40px; }
-        .minute { width: 2px; height: 60px; }
-        .stat-bar {
-            background: #222;
-            height: 15px;
-            border-radius: 10px;
-            margin-top: 5px;
-            overflow: hidden;
+        .hour { width: 4px; height: 45px; background: #fff; }
+        .minute { width: 3px; height: 65px; background: #00d2ff; }
+        .second { 
+            width: 1px; height: 70px; 
+            background: #ff3b30; 
+            /* Luxury automatic sweep effect */
+            animation: sweep 60s linear infinite; 
         }
-        .stat-fill {
-            background: linear-gradient(90deg, #00d2ff, #0088cc);
-            height: 100%;
+
+        @keyframes sweep {
+            from { transform: translateX(-50%) rotate(0deg); }
+            to { transform: translateX(-50%) rotate(360deg); }
         }
-        .btn {
-            background: transparent;
-            border: 1px solid #ff3b30;
-            color: #ff3b30;
-            padding: 5px 10px;
-            cursor: pointer;
-            margin-top: 10px;
+
+        /* Confetti elements */
+        .confetti {
+            position: absolute;
+            width: 8px; height: 8px;
+            background: #00d2ff;
+            border-radius: 50%;
+            animation: drop 3s ease-out infinite;
+            opacity: 0;
+            pointer-events: none;
         }
-        .btn:hover { background: #ff3b30; color: #fff; }
+        @keyframes drop {
+            0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -123,87 +213,54 @@
             <span>⚡ SYSTEM_DIAGNOSTIC.SH</span>
             <span class="warning-text">[!] ALERT</span>
         </div>
-        <p>[INFO] Initializing scan on user: BOYFRIEND...</p>
-        <p class="warning-text">[WARNING] Workaholic levels exceeding maximum safety parameters (99%).</p>
-        <p class="warning-text">[WARNING] Stubbornness levels dangerously high.</p>
-        <p>[CRITICAL UPDATE] A core system update is required before birthday wishes can be unlocked.</p>
-        <p style="color: #ffcc00; margin-top: 20px;">&gt; CRITICAL DIRECTIVE: You must start listening to your girlfriend and promise not to be so stubborn anymore.</p>
+        <div id="terminal-body">
+            <p>[INFO] Initializing scan on user: BOYFRIEND...</p>
+            <p class="warning-text">[WARNING] Workaholic levels exceeding maximum safety parameters (99%).</p>
+            <p class="warning-text">[WARNING] Stubbornness levels dangerously high.</p>
+            <p>[CRITICAL UPDATE] A core system update is required before birthday wishes can be unlocked.</p>
+            <p style="color: #ffcc00; margin-top: 20px; text-shadow: 0 0 5px rgba(255,204,0,0.4);">
+                &gt; CRITICAL DIRECTIVE: You must start listening to your girlfriend and promise not to be so stubborn anymore.
+            </p>
+        </div>
         
         <div class="input-line">
-            <span id="prompt-text">Do you agree to these terms? (Y/N):</span>
+            <span id="prompt-text" style="white-space: nowrap; margin-right: 10px;">Do you agree to these terms? (Y/N):</span>
             <input type="text" id="term-input" autofocus autocomplete="off">
         </div>
-        <p id="error-msg" style="color: #ff3b30; margin-top: 15px; display: none;"></p>
+        <p id="error-msg" style="color: #ff3b30; margin-top: 15px; display: none; text-shadow: 0 0 8px #ff3b30;"></p>
     </div>
 
     <!-- STAGE 2: THE COMPLICATED DASHBOARD -->
     <div id="dashboard-stage" class="dashboard">
         <!-- Mercedes Telemetry Panel -->
-        <div class="panel mercedes-panel">
-            <h3 style="margin-top: 0; border-bottom: 1px solid #00d2ff; padding-bottom: 5px;">🏎️ MERCEDES TELEMETRY PANEL</h3>
-            <p><strong>Model:</strong> Ultimate Workaholic Dev Edition</p>
-            <p><strong>Fuel Level (Love):</strong> 100%</p>
-            <div class="stat-bar"><div class="stat-fill" style="width: 100%;"></div></div>
-            <p><strong>Engine Temp:</strong> Super Hot 🔥</p>
-            <div class="stat-bar"><div class="stat-fill" style="width: 95%;"></div></div>
-            <p><strong>Junk Food Level:</strong> Dangerous Amounts of Pizza & Fries 🍕🍟</p>
-            <div class="stat-bar"><div class="stat-fill" style="width: 88%; background: #ff3b30;"></div></div>
+        <div class="panel">
+            <div class="panel-title">🏎️ AMG MERCEDES TELEMETRY ENGINE</div>
+            <p style="margin-top: 15px;"><strong>System Model:</strong> Ultimate Workaholic Dev v2.6</p>
+            <p><strong>Fuel Level (My Love For You):</strong> 100%</p>
+            <div class="stat-bar"><div class="stat-fill" id="bar-love" style="width: 100%;"></div></div>
+            
+            <p><strong>Engine Core Temp:</strong> Super Hot 🔥</p>
+            <div class="stat-bar"><div class="stat-fill" id="bar-temp" style="width: 98%;"></div></div>
+            
+            <p><strong>Junk Food Accumulation:</strong> Dangerous Levels 🍕🍟</p>
+            <div class="stat-bar"><div class="stat-fill" id="bar-junk" style="width: 85%; background: linear-gradient(90deg, #ff3b30, #ff9500); box-shadow: 0 0 10px #ff3b30;"></div></div>
         </div>
 
         <!-- Luxury Chronograph Watch Panel -->
-        <div class="panel">
-            <h3 style="margin-top: 0; border-bottom: 1px solid #00d2ff; padding-bottom: 5px;">⌚ CHRONOGRAPH CHIPS</h3>
-            <div class="watch-face">
-                <div class="watch-hand hour" style="transform: rotate(90deg) translateX(-50%);"></div>
-                <div class="watch-hand minute" style="transform: rotate(180deg) translateX(-50%);"></div>
+        <div class="panel" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div class="panel-title">⌚ LUXURY CHRONOGRAPH LOG</div>
+            <div class="watch-container">
+                <div class="watch-face">
+                    <!-- Static positions set to an iconic time look -->
+                    <div class="watch-hand hour" style="transform: translateX(-50%) rotate(300deg);"></div>
+                    <div class="watch-hand minute" style="transform: translateX(-50%) rotate(60deg);"></div>
+                    <div class="watch-hand second"></div>
+                </div>
             </div>
-            <p align="center" style="font-size: 12px; color: #888;">Time spent coding vs. Time spent thinking about you</p>
+            <p align="center" style="font-size: 11px; color: #8f9cae; margin: 0; line-height: 1.4;">
+                [STATUS] Automatic sweeping active.<br>Time spent writing scripts &lt; Time spent admiring you.
+            </p>
         </div>
 
         <!-- Birthday Message Panel -->
-        <div class="panel" style="grid-column: span 2;">
-            <h2 style="color: #fff; margin-top:0;">🎉 ACCESS GRANTED: HAPPY BIRTHDAY! 🎉</h2>
-            <p>Now that you have officially promised to listen to me more and drop the stubbornness... Happy Birthday, babe! ❤️</p>
-            <p>I know you work so hard and eat way too much junk food, but you are the most brilliant, amazing developer, and I love you to pieces. Stop staring at code for two seconds and celebrate!</p>
-        </div>
-    </div>
-
-    <script>
-        const input = document.getElementById('term-input');
-        const errorMsg = document.getElementById('error-msg');
-        const promptText = document.getElementById('prompt-text');
-        
-        let stage = 'stubborn'; // Track terminal progress
-
-        input.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                const val = input.value.trim().toUpperCase();
-                errorMsg.style.display = 'none';
-
-                if (stage === 'stubborn') {
-                    if (val === 'Y' || val === 'YES') {
-                        // Advance to the junk food check
-                        stage = 'junkfood';
-                        input.value = '';
-                        promptText.innerText = "Enter your absolute favorite junk food to unlock dashboard:";
-                    } else {
-                        errorMsg.innerText = "❌ ERROR: Access Denied. Stubborn developers do not get birthday wishes. Type 'Y' to comply.";
-                        errorMsg.style.display = 'block';
-                        input.value = '';
-                    }
-                } else if (stage === 'junkfood') {
-                    if (val.length > 2) {
-                        // Unlock everything!
-                        document.getElementById('terminal-stage').style.display = 'none';
-                        document.getElementById('dashboard-stage').style.display = 'grid';
-                    } else {
-                        errorMsg.innerText = "❌ ERROR: Invalid authentication key. Try again.";
-                        errorMsg.style.display = 'block';
-                        input.value = '';
-                    }
-                }
-            }
-        });
-    </script>
-</body>
-</html>
+        <div class="panel" style="grid-column: span 2; border-color: #fff; box-shadow: 0 0 25px rgba(255,255,255,0.1);">
